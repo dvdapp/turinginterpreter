@@ -1,17 +1,17 @@
 package turingmachine;
 
 public class State implements Comparable<State> {
-	public char currentState;
+	public Integer currentState;
 	public boolean isFinalState;
 	
 	public State() {}
 	
-	public State (char currentState, boolean isFinalState) {
+	public State (Integer currentState, boolean isFinalState) {
 		this.currentState = currentState;
 		this.isFinalState = isFinalState;
 	}
 	
-	public State(char currentState) {
+	public State(Integer currentState) {
 		this.currentState = currentState;
 	}
 	

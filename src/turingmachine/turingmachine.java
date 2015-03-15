@@ -4,16 +4,22 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 import java.util.TreeSet;
 
 public class turingmachine {
 
 	public static void main(String[] args) throws IOException {
-		BufferedReader in = new BufferedReader(new FileReader("/home/david/eclipse-workspace/turinginterpreter/input.txt")); 
+		BufferedReader in = new BufferedReader(new FileReader("/home/david/eclipse-workspace/turinginterpreter/input2.txt")); 
 
 		ArrayList<Transition> transitions = new ArrayList<Transition>();
 		TreeSet<State> states = new TreeSet<State>();
 		ArrayList<InputTape> inputs = new ArrayList<InputTape>();
+		List<String> finalStates = new ArrayList<String>();
 
 		char[] type = new char[1];
 
@@ -36,15 +42,24 @@ public class turingmachine {
 				default:
 					moveHead = 0;
 				}
-				State newCurrentState = new State(tchars[0]);
-				State newNextState = new State(tchars[4]);
+				State newCurrentState = new State(Character.getNumericValue(tchars[0]));
+				State newNextState = new State(Character.getNumericValue(tchars[4]));
 				states.add(newCurrentState);
+				//states.add(newNextState);
 				transitions.add(new Transition(newCurrentState,tchars[2],newNextState,tchars[6],moveHead));
 				break;
 			case 'f':
 				//TODO: Deal with multiple final states
-				char[] finalStates = in.readLine().toCharArray();
-				states.add(new State(finalStates[0], true));
+				String tempFinalStates = in.readLine();
+				finalStates = Arrays.asList(tempFinalStates.split(" "));
+				for (int i=0;i<finalStates.size();i++){
+					State newFinalState = new State(Integer.parseInt(finalStates.get(i)), true);
+					for (int j=0;j<transitions.size();j++){
+						if(transitions.get(j).nextState.equals(newFinalState))
+							transitions.get(j).nextState = newFinalState;
+					}
+					states.add(newFinalState);
+				}
 				break;
 			case 'i':
 				//input tape
@@ -63,9 +78,9 @@ public class turingmachine {
 		//turing machine logic
 		
 		//print transition just because
-//		for (int i=0;i<transitions.size();i++){
-//			System.out.println(transitions.get(i).show());
-//		}
+		for (int i=0;i<transitions.size();i++){
+			System.out.println(transitions.get(i).show());
+		}
 		
 		//loop through all input tapes, and accept/reject in place
 		for (int i=0;i<inputs.size();i++){
@@ -83,9 +98,14 @@ public class turingmachine {
 					inputTape[headPoint] = transitions.get(j).writeSymbol;
 					headPoint += transitions.get(j).moveHead;
 					
-					if (transitions.get(j).moveHead == 0) {
+					//System.out.println(currentState.show());
+					
+					if (currentState.isFinalState)
 						inputs.get(i).output = "Accepted";
-					}
+					
+//					if (transitions.get(j).moveHead == 0) {
+//						inputs.get(i).output = "Accepted";
+//					}
 					
 					j = -1;					
 				}
@@ -93,6 +113,10 @@ public class turingmachine {
 			
 		}
 		
+		Iterator<State> statarator = states.iterator();
+		while(statarator.hasNext()){
+			System.out.println(statarator.next().show());				
+		}
 		
 		for (int i=0;i<inputs.size();i++){
 			System.out.println(inputs.get(i).show());
