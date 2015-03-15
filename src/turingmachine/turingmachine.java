@@ -53,20 +53,28 @@ public class turingmachine {
 		
 		//turing machine logic
 
-		//transition logic
 		for (int i=0;i<transitions.size();i++){
 			System.out.println(transitions.get(i).show());
 		}
 		
-		//state logic
 		Iterator<State> statarator = states.iterator();
-		while(statarator.hasNext()){
-			System.out.println(((State)statarator.next()).show());
-		}
+//		while(statarator.hasNext()){
+//			System.out.println(((State)statarator.next()).show());
+//		}
 		
-		//input tapes logic
+		State currentState = (State)statarator.next(); //firstState
 		for (int i=0;i<inputs.size();i++){
-			System.out.println(inputs.get(i));
+			//set up
+			char[] inputTape = inputs.get(i);
+			//for (int j=0;j<inputTape.length;j++){
+				//System.out.println(inputTape[j]);
+				//high level
+				//find transition where trans.currstate = currentstate 
+				//and inputsymbol = inputtape[j]
+				//set currenttrans to next trans
+				//write to stdout write symbol
+				//go to inputtape[j+movehead)
+			//}
 		}
 		
 	}
