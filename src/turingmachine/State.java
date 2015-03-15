@@ -22,9 +22,10 @@ public class State implements Comparable<State> {
 	@Override 
 	public boolean equals(Object other) {
 	    if (!(other instanceof State)) {
-	      return false;
+	    	return false;
 	    }
 	    State otherState = (State) other;
+	    
 	    return currentState == otherState.currentState;
 	  }
 

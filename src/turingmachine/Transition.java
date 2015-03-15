@@ -1,13 +1,13 @@
 package turingmachine;
 
 public class Transition {
-	public char currentState;
+	public State currentState;
 	public char inputSymbol;
-	public char nextState;
+	public State nextState;
 	public char writeSymbol;
-	public char moveHead;
+	public int moveHead;
 	
-	public Transition(char currentState,char inputSymbol,char nextState,char writeSymbol,char moveHead) {
+	public Transition(State currentState,char inputSymbol,State nextState,char writeSymbol,int moveHead) {
 		this.currentState = currentState;
 		this.inputSymbol = inputSymbol;
 		this.nextState = nextState;
@@ -16,7 +16,7 @@ public class Transition {
 	}
 	
 	public String show() {
-		return this.currentState+", "+this.inputSymbol+", "+this.nextState+", "+this.writeSymbol+", "+this.moveHead;
+		return "("+this.currentState.show()+")"+", "+this.inputSymbol+", "+"("+this.nextState.show()+")"+", "+this.writeSymbol+", "+this.moveHead;
 	}
 
 }
