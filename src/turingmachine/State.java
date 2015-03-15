@@ -28,12 +28,12 @@ public class State implements Comparable<State> {
 	    return currentState == otherState.currentState;
 	  }
 
-	  @Override 
-	  public int compareTo(State otherState) {
-	    if (currentState < otherState.currentState) {
-	      return -1;
-	    }
-	    return currentState == otherState.currentState ? 0 : 1;
-	  }
+	@Override 
+	public int compareTo(State otherState) {
+		if (currentState < otherState.currentState) {
+			return -1;
+		}
+		return currentState == otherState.currentState ? 0 : 1;
+	}
 
 }
