@@ -4,22 +4,16 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.TreeSet;
-import java.util.Set;
 
 public class turingmachine {
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader in = new BufferedReader(new FileReader("/home/david/eclipse-workspace/turinginterpreter/input.txt")); 
 
-		Integer inputTapeCounter = 0;
-
 		ArrayList<Transition> transitions = new ArrayList<Transition>();
 		TreeSet<State> states = new TreeSet<State>();
-		Map<Integer, char[]> inputs = new HashMap<Integer, char[]>();
+		ArrayList<InputTape> inputs = new ArrayList<InputTape>();
 
 		char[] type = new char[1];
 
@@ -27,7 +21,6 @@ public class turingmachine {
 		while (in.ready()) {
 			type = Character.toChars(in.read());
 			in.read();
-
 
 			switch(type[0]) {
 			case 't':
@@ -61,9 +54,7 @@ public class turingmachine {
 					inputTape[i] = tempInputTape[i];
 				}
 				inputTape[tempInputTape.length] = 'Z';
-				//if (!inputs.containsValue(inputTape))
-				inputs.put(inputTapeCounter, inputTape);
-				inputTapeCounter++;
+				inputs.add(new InputTape(inputTape));
 				break;
 			}
 		}
@@ -72,25 +63,31 @@ public class turingmachine {
 		//turing machine logic
 		
 		//print transition just because
-		for (int i=0;i<transitions.size();i++){
-			System.out.println(transitions.get(i).show());
-		}
+//		for (int i=0;i<transitions.size();i++){
+//			System.out.println(transitions.get(i).show());
+//		}
 		
 		//loop through all input tapes, and accept/reject in place
 		for (int i=0;i<inputs.size();i++){
-			char[] inputTape = inputs.get(i); //get the first input tape
+
+			char[] inputTape = inputs.get(i).inputTape; //get the first input tape
 			int headPoint = 0; //head points at first element 
 			State currentState = states.first(); //firstState
-			//System.out.println(inputTape);
 			
-			for (int j=0;j<transitions.size()-1;j++){
+			for (int j=0;j<transitions.size();j++){
+				
 				if (transitions.get(j).currentState.equals(currentState)
 						&& transitions.get(j).inputSymbol == inputTape[headPoint]){
 					
 					currentState = transitions.get(j).nextState;
 					inputTape[headPoint] = transitions.get(j).writeSymbol;
 					headPoint += transitions.get(j).moveHead;
-					j = -1;
+					
+					if (transitions.get(j).moveHead == 0) {
+						inputs.get(i).output = "Accepted";
+					}
+					
+					j = -1;					
 				}
 			}
 			
@@ -98,7 +95,7 @@ public class turingmachine {
 		
 		
 		for (int i=0;i<inputs.size();i++){
-			System.out.println(inputs.get(i));
+			System.out.println(inputs.get(i).show());
 		}
 
 	}
