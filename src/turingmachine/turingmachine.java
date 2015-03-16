@@ -30,26 +30,31 @@ public class turingmachine {
 
 			switch(type[0]) {
 			case 't':
-				char[] tchars = in.readLine().toCharArray();
+				//char[] tchars = in.readLine().toCharArray();
+				String line = in.readLine();
+				List<String> tchars = Arrays.asList(line.split(" "));
+//				for (int i=0;i<tchars.size();i++){
+//					System.out.println(tchars.get(i));
+//				}
+//				System.out.println("---------");
 				Integer moveHead = 0;
-				switch (tchars[8]) {
-				case 'R':
+				switch (tchars.get(4)) {
+				case "R":
 					moveHead = 1;
 					break;
-				case 'L':
+				case "L":
 					moveHead = -1;
 					break;
 				default:
 					moveHead = 0;
 				}
-				State newCurrentState = new State(Character.getNumericValue(tchars[0]));
-				State newNextState = new State(Character.getNumericValue(tchars[4]));
+				State newCurrentState = new State(Integer.parseInt(tchars.get(0)));
+				State newNextState = new State(Integer.parseInt(tchars.get(2)));
 				states.add(newCurrentState);
-				//states.add(newNextState);
-				transitions.add(new Transition(newCurrentState,tchars[2],newNextState,tchars[6],moveHead));
+				transitions.add(new Transition(newCurrentState,tchars.get(1).charAt(0),newNextState,tchars.get(3).charAt(0),moveHead));
 				break;
 			case 'f':
-				//TODO: Deal with multiple final states
+				
 				String tempFinalStates = in.readLine();
 				finalStates = Arrays.asList(tempFinalStates.split(" "));
 				for (int i=0;i<finalStates.size();i++){
@@ -78,9 +83,9 @@ public class turingmachine {
 		//turing machine logic
 		
 		//print transition just because
-		for (int i=0;i<transitions.size();i++){
-			System.out.println(transitions.get(i).show());
-		}
+//		for (int i=0;i<transitions.size();i++){
+//			System.out.println(transitions.get(i).show());
+//		}
 		
 		//loop through all input tapes, and accept/reject in place
 		for (int i=0;i<inputs.size();i++){
@@ -113,13 +118,13 @@ public class turingmachine {
 			
 		}
 		
-		Iterator<State> statarator = states.iterator();
-		while(statarator.hasNext()){
-			System.out.println(statarator.next().show());				
-		}
+//		Iterator<State> statarator = states.iterator();
+//		while(statarator.hasNext()){
+//			System.out.println(statarator.next().show());				
+//		}
 		
 		for (int i=0;i<inputs.size();i++){
-			System.out.println(inputs.get(i).show());
+			System.out.println(i+") "+inputs.get(i).show());
 		}
 
 	}
