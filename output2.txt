@@ -1,0 +1,36 @@
+1) x#x
+Accepted
+2) x#x
+Accepted
+3) xx#xx
+Accepted
+4) xx#xx
+Accepted
+5) xx#xx
+Accepted
+6) xx#xx
+Accepted
+7) xxxxxxx#xxxxxxx
+Accepted
+8) x
+Accepted
+9) x#
+Rejected
+10) x#
+Rejected
+11) xa
+Rejected
+12) xb 
+Rejected
+13) xb
+Rejected
+14) xbab#bbab
+Rejected
+15) xbbb#aaab
+Rejected
+16) xxxx#xxxxb
+Rejected
+17) xxxxx#xxxx
+Rejected
+18) xxbab#x
+Rejected

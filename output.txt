@@ -1,0 +1,8 @@
+1) xbbab
+Rejected
+2) xaaaa
+Rejected
+3) xb
+Accepted
+4) xbaaa
+Accepted

@@ -2,20 +2,23 @@ package turingmachine;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.TreeSet;
 
 public class turingmachine {
 
 	public static void main(String[] args) throws IOException {
-		BufferedReader in = new BufferedReader(new FileReader("/home/david/eclipse-workspace/turinginterpreter/input2.txt")); 
-
+		String inputFile = "/home/david/eclipse-workspace/turinginterpreter/input.txt";
+		String outputFile = "/home/david/eclipse-workspace/turinginterpreter/output.txt";
+		
+		BufferedReader in = new BufferedReader(new FileReader(inputFile)); 
+		PrintWriter out = new PrintWriter(new FileWriter(outputFile)); 
+		
 		ArrayList<Transition> transitions = new ArrayList<Transition>();
 		TreeSet<State> states = new TreeSet<State>();
 		ArrayList<InputTape> inputs = new ArrayList<InputTape>();
@@ -30,14 +33,10 @@ public class turingmachine {
 
 			switch(type[0]) {
 			case 't':
-				//char[] tchars = in.readLine().toCharArray();
 				String line = in.readLine();
 				List<String> tchars = Arrays.asList(line.split(" "));
-//				for (int i=0;i<tchars.size();i++){
-//					System.out.println(tchars.get(i));
-//				}
-//				System.out.println("---------");
 				Integer moveHead = 0;
+				
 				switch (tchars.get(4)) {
 				case "R":
 					moveHead = 1;
@@ -48,13 +47,13 @@ public class turingmachine {
 				default:
 					moveHead = 0;
 				}
+				
 				State newCurrentState = new State(Integer.parseInt(tchars.get(0)));
 				State newNextState = new State(Integer.parseInt(tchars.get(2)));
 				states.add(newCurrentState);
 				transitions.add(new Transition(newCurrentState,tchars.get(1).charAt(0),newNextState,tchars.get(3).charAt(0),moveHead));
 				break;
 			case 'f':
-				
 				String tempFinalStates = in.readLine();
 				finalStates = Arrays.asList(tempFinalStates.split(" "));
 				for (int i=0;i<finalStates.size();i++){
@@ -67,9 +66,9 @@ public class turingmachine {
 				}
 				break;
 			case 'i':
-				//input tape
 				char[] tempInputTape = in.readLine().toCharArray();
-				char[] inputTape = new char[tempInputTape.length+1];
+				char[] inputTape = new char[tempInputTape.length+1]; //+2 for binary dec
+				//inputTape[0] = 'Z'; //for binary dec purposes
 				for (int i=0;i<tempInputTape.length;i++){
 					inputTape[i] = tempInputTape[i];
 				}
@@ -79,13 +78,6 @@ public class turingmachine {
 			}
 		}
 		in.close();
-
-		//turing machine logic
-		
-		//print transition just because
-//		for (int i=0;i<transitions.size();i++){
-//			System.out.println(transitions.get(i).show());
-//		}
 		
 		//loop through all input tapes, and accept/reject in place
 		for (int i=0;i<inputs.size();i++){
@@ -103,14 +95,8 @@ public class turingmachine {
 					inputTape[headPoint] = transitions.get(j).writeSymbol;
 					headPoint += transitions.get(j).moveHead;
 					
-					//System.out.println(currentState.show());
-					
 					if (currentState.isFinalState)
 						inputs.get(i).output = "Accepted";
-					
-//					if (transitions.get(j).moveHead == 0) {
-//						inputs.get(i).output = "Accepted";
-//					}
 					
 					j = -1;					
 				}
@@ -118,14 +104,11 @@ public class turingmachine {
 			
 		}
 		
-//		Iterator<State> statarator = states.iterator();
-//		while(statarator.hasNext()){
-//			System.out.println(statarator.next().show());				
-//		}
-		
 		for (int i=0;i<inputs.size();i++){
-			System.out.println(i+") "+inputs.get(i).show());
+			System.out.println(i+1+") "+inputs.get(i).show());
+			out.println(i+1+") "+inputs.get(i).show());
 		}
+		out.close();
 
 	}
 
