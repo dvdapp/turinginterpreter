@@ -1,8 +1,0 @@
-Hello Ryan,
-
-In my turing machine code, I appended Z at the end of each input string, but not at the beginning. When I appended Z at the beginning of the input string, the output was the same but with the original input symbol instead of x. When I ran the binaryDecrement.txt file on my machine, it would only work properly if there is a Z appended to the beginning of each input string (whether through the text file or the code).
-
-I would appreciate your comments and feedback about this when you return the assignment.
-
-Best,
-David
